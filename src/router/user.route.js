@@ -8,11 +8,21 @@ const {
   verifyLogin,
   cryptPassword,
 } = require("../middleware/user.middleware")
-const { register, login } = require("../controller/user.controller")
+const { auth } = require("../middleware//auth.middleware")
 
-// 用户注册接口
+const {
+  register,
+  login,
+  editPassword,
+} = require("../controller/user.controller")
+
+// 用户注册
 router.post("/register", userValidator, verifyRegister, cryptPassword, register)
 
+// 用户登录
 router.post("/login", userValidator, verifyLogin, login)
+
+// 修改密码
+router.patch("/editPassword", auth, editPassword)
 
 module.exports = router

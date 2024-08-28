@@ -8,6 +8,15 @@ class UserService {
     return res.dataValues
   }
 
+  // 修改密码
+  async updateUserPassword(username, newPassword) {
+    const res = await User.upsert({
+      username,
+      password: newPassword,
+    })
+    return res
+  }
+
   // 根据传入的参数查找是否在表中重复
   async getUserInfo(params) {
     const res = await User.findOne({

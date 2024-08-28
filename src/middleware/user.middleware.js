@@ -63,4 +63,9 @@ const cryptPassword = async (ctx, next) => {
   await next()
 }
 
-module.exports = { userValidator, verifyRegister, verifyLogin, cryptPassword }
+module.exports = {
+  userValidator,
+  verifyRegister,
+  verifyLogin,
+  cryptPassword,
+}

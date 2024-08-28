@@ -35,4 +35,22 @@ module.exports = {
     message: "用户密码错误",
     result: "",
   },
+  userEditPasswordError: {
+    code: "10007",
+    success: false,
+    message: "更新密码失败",
+    result: "",
+  },
+  tokenExpiredError: {
+    code: "10101",
+    success: false,
+    message: "token过期",
+    result: "",
+  },
+  jsonWebTokenError: {
+    code: "10102",
+    success: false,
+    message: "无效的token",
+    result: "",
+  },
 }

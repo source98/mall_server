@@ -1,7 +1,18 @@
 const jwt = require("jsonwebtoken")
 
-const { createUser, getUserInfo } = require("../service/user.service")
-const { userRegisterError, userLoginError } = require("../constant/err.type")
+const {
+  createUser,
+  getUserInfo,
+  updateUserPassword,
+} = require("../service/user.service")
+const {
+  userRegisterError,
+  userLoginError,
+  userEditPasswordError,
+} = require("../constant/err.type")
+
+const { encryptHandler } = require("../utils/index.js")
+// 私钥
 const { JWT_SECRET } = require("../config/config.default")
 
 class UserController {
@@ -29,7 +40,7 @@ class UserController {
       const { password, ...res } = await getUserInfo({ username })
 
       ctx.body = {
-        code: 0,
+        code: 200,
         success: true,
         message: "用户登录成功",
         result: {
@@ -38,6 +49,22 @@ class UserController {
       }
     } catch (e) {
       return ctx.app.emit("error", userLoginError, ctx)
+    }
+  }
+
+  async editPassword(ctx) {
+    const { username, newPassword } = ctx.request.body
+    try {
+      await updateUserPassword(username, encryptHandler(newPassword))
+      ctx.status = 200
+      ctx.body = {
+        code: 200,
+        success: true,
+        message: "修改密码成功",
+        result: "",
+      }
+    } catch (err) {
+      return ctx.app.emit("error", userEditPasswordError, ctx)
     }
   }
 }
