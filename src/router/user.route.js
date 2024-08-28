@@ -4,14 +4,15 @@ const router = new Router({ prefix: "/users" })
 
 const {
   userValidator,
-  verifyUser,
+  verifyRegister,
+  verifyLogin,
   cryptPassword,
 } = require("../middleware/user.middleware")
 const { register, login } = require("../controller/user.controller")
 
 // 用户注册接口
-router.post("/register", userValidator, verifyUser, cryptPassword, register)
+router.post("/register", userValidator, verifyRegister, cryptPassword, register)
 
-router.post("/login", login)
+router.post("/login", userValidator, verifyLogin, login)
 
 module.exports = router

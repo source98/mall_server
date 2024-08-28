@@ -5,6 +5,9 @@ const {
   userFormateError,
   userAlreadyExited,
   userRegisterError,
+  userDoesNotExist,
+  userLoginError,
+  userPasswordError,
 } = require("../constant/err.type")
 
 const userValidator = async (ctx, next) => {
@@ -16,7 +19,7 @@ const userValidator = async (ctx, next) => {
   await next()
 }
 
-const verifyUser = async (ctx, next) => {
+const verifyRegister = async (ctx, next) => {
   const { username } = ctx.request.body
   try {
     const result = await getUserInfo({ username })
@@ -27,6 +30,23 @@ const verifyUser = async (ctx, next) => {
   } catch (err) {
     ctx.app.emit("error", userRegisterError, ctx)
     return
+  }
+
+  await next()
+}
+
+const verifyLogin = async (ctx, next) => {
+  const { username, password } = ctx.request.body
+  try {
+    const res = await getUserInfo({ username })
+    if (!res) {
+      return ctx.app.emit("error", userDoesNotExist, ctx)
+    }
+    if (!bcrypt.compareSync(password, res.password)) {
+      return ctx.app.emit("error", userPasswordError, ctx)
+    }
+  } catch (err) {
+    return ctx.app.emit("error", userLoginError, ctx)
   }
 
   await next()
@@ -43,4 +63,4 @@ const cryptPassword = async (ctx, next) => {
   await next()
 }
 
-module.exports = { userValidator, verifyUser, cryptPassword }
+module.exports = { userValidator, verifyRegister, verifyLogin, cryptPassword }

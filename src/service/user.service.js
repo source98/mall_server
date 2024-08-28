@@ -11,7 +11,8 @@ class UserService {
   // 根据传入的参数查找是否在表中重复
   async getUserInfo(params) {
     const res = await User.findOne({
-      attributes: Object.keys(params),
+      // attributes: Object.keys(params),
+      attributes: ["id", "username", "password", "is_admin"],
       where: params,
     })
     return res ? res.dataValues : null
