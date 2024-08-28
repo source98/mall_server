@@ -1,3 +1,5 @@
+const bcrypt = require("bcryptjs")
+
 const { getUserInfo } = require("../service/user.service")
 const {
   userFormateError,
@@ -30,4 +32,15 @@ const verifyUser = async (ctx, next) => {
   await next()
 }
 
-module.exports = { userValidator, verifyUser }
+// 密码加密
+const cryptPassword = async (ctx, next) => {
+  const { password } = ctx.request.body
+
+  const salt = bcrypt.genSaltSync(10)
+  // hash保存的是密文
+  const hash = bcrypt.hashSync(password, salt)
+  ctx.request.body.password = hash
+  await next()
+}
+
+module.exports = { userValidator, verifyUser, cryptPassword }
