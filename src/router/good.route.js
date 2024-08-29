@@ -3,6 +3,8 @@ const router = new Router({ prefix: "/goods" })
 
 const { upload } = require("../controller/good.controller")
 
-router.post("/upload", upload)
+const { auth, isAdmin } = require("../middleware//auth.middleware")
+
+router.post("/upload", auth, isAdmin, upload)
 
 module.exports = router

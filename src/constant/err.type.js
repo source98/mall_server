@@ -53,4 +53,10 @@ module.exports = {
     message: "无效的token",
     result: "",
   },
+  isNotAdminError: {
+    code: "10103",
+    success: false,
+    message: "权限错误",
+    result: "",
+  },
 }
