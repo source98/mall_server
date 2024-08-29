@@ -8,7 +8,7 @@ const {
 } = require("../constant/err.type")
 
 const auth = async (ctx, next) => {
-  const { authorization } = ctx.request.header
+  const { authorization = '' } = ctx.request.header
   const token = authorization.replace("Bearer ", "")
   try {
     const user = jwt.verify(token, JWT_SECRET)

@@ -1,16 +1,26 @@
+const path = require("path")
+
 const Koa = require("koa")
+const KoaStatic = require("koa-static")
 const { koaBody } = require("koa-body")
 
-// 路由
 const router = require("../router")
-
 const errorHandler = require("./errorHandler")
-// app实例
+
 const app = new Koa()
-// 中间件
-app.use(koaBody())
-   .use(router.routes())
-   .use(router.allowedMethods())
+app
+  .use(
+    koaBody({
+      multipart: true,
+      formidable: {
+        uploadDir: path.join(__dirname, "../uploads"),
+        keepExtensions: true,
+      },
+    })
+  )
+  .use(KoaStatic(path.join(__dirname, "../uploads")))
+  .use(router.routes())
+  .use(router.allowedMethods())
 
 app.on("error", errorHandler)
 

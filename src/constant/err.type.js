@@ -59,4 +59,10 @@ module.exports = {
     message: "权限错误",
     result: "",
   },
+  fileUpLoadError: {
+    code: "10201",
+    success: false,
+    message: "图片上传失败",
+    result: "",
+  },
 }
