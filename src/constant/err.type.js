@@ -65,4 +65,10 @@ module.exports = {
     message: "图片上传失败",
     result: "",
   },
+  goodsFormateError: {
+    code: "10203",
+    success: false,
+    message: "商品格式错误",
+    result: "",
+  },
 }

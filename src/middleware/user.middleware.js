@@ -11,10 +11,20 @@ const {
 } = require("../constant/err.type")
 
 const userValidator = async (ctx, next) => {
-  const { username, password } = ctx.request.body
-  if (!username || !password) {
-    ctx.app.emit("error", userFormateError, ctx)
-    return
+  try {
+    ctx.verifyParams({
+      username: {
+        type: "string",
+        required: true,
+      },
+      password: {
+        type: "string",
+        required: true,
+      },
+    })
+  } catch (e) {
+    userFormateError.result = e
+    return ctx.app.emit("error", userFormateError, ctx)
   }
   await next()
 }
