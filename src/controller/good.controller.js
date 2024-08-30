@@ -5,11 +5,13 @@ const {
   updateGoodsError,
   invalidGoodsId,
   removeGoodsError,
+  restoreGoodsError,
 } = require("../constant/err.type")
 const {
   createGoods,
   updateGoods,
   removeGoods,
+  restoreGoods,
 } = require("../service/goods.service")
 class GoodsController {
   async upload(ctx) {
@@ -70,7 +72,7 @@ class GoodsController {
         ctx.body = {
           code: 200,
           success: true,
-          message: "删除成功",
+          message: "下架商品成功",
           result: "",
         }
       } else {
@@ -78,6 +80,24 @@ class GoodsController {
       }
     } catch (e) {
       return ctx.app.emit("error", removeGoodsError, ctx)
+    }
+  }
+
+  async restore(ctx) {
+    try {
+      const res = await restoreGoods(ctx.params.id)
+      if (res) {
+        ctx.body = {
+          code: 200,
+          success: true,
+          message: "上架商品成功",
+          result: "",
+        }
+      } else {
+        return ctx.app.emit("error", invalidGoodsId, ctx)
+      }
+    } catch (e) {
+      return ctx.app.emit("error", restoreGoodsError, ctx)
     }
   }
 }

@@ -6,6 +6,7 @@ const {
   create,
   update,
   remove,
+  restore
 } = require("../controller/good.controller")
 
 const { auth, isAdmin } = require("../middleware//auth.middleware")
@@ -18,9 +19,16 @@ router.post("/upload", auth, isAdmin, upload)
 
 // 发布商品
 router.post("/publishGood", auth, isAdmin, goodValidator, create)
+
 // 修改商品
 router.put("/publishGood/:id", auth, isAdmin, goodValidator, update)
-// 删除商品
-router.delete("/deleteGoods/:id", auth, isAdmin, remove)
+
+// 删除商品(硬删除)
+// router.delete("/deleteGoods/:id", auth, isAdmin, remove)
+// 下架商品(软删除)
+router.post("/soldGoods/:id/off", auth, isAdmin, remove)
+
+// 上架商品
+router.post("/shelfGoods/:id/on", auth, isAdmin, restore)
 
 module.exports = router

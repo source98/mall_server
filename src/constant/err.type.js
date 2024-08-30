@@ -95,4 +95,10 @@ module.exports = {
     message: "删除商品失败",
     result: "",
   },
+  restoreGoodsError: {
+    code: "10208",
+    success: false,
+    message: "商品上架失败",
+    result: "",
+  },
 }
