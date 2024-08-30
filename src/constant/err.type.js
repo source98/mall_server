@@ -71,4 +71,10 @@ module.exports = {
     message: "商品格式错误",
     result: "",
   },
+  publishGoodsError: {
+    code: "10204",
+    success: false,
+    message: "上传商品失败",
+    result: "",
+  },
 }
