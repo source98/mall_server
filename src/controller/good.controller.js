@@ -4,8 +4,13 @@ const {
   publishGoodsError,
   updateGoodsError,
   invalidGoodsId,
+  removeGoodsError,
 } = require("../constant/err.type")
-const { createGoods, updateGoods } = require("../service/goods.service")
+const {
+  createGoods,
+  updateGoods,
+  removeGoods,
+} = require("../service/goods.service")
 class GoodsController {
   async upload(ctx) {
     const { file } = ctx.request.files
@@ -55,6 +60,24 @@ class GoodsController {
       }
     } catch (e) {
       return ctx.app.emit("error", updateGoodsError, ctx)
+    }
+  }
+
+  async remove(ctx) {
+    try {
+      const res = await removeGoods(ctx.params.id)
+      if (res) {
+        ctx.body = {
+          code: 200,
+          success: true,
+          message: "删除成功",
+          result: "",
+        }
+      } else {
+        return ctx.app.emit("error", invalidGoodsId, ctx)
+      }
+    } catch (e) {
+      return ctx.app.emit("error", removeGoodsError, ctx)
     }
   }
 }

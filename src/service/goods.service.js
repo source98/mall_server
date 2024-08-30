@@ -11,6 +11,10 @@ class GoodsService {
     })
     return res[0] > 0
   }
+
+  async removeGoods(id) {
+    return await Goods.destroy({ where: { id } })
+  }
 }
 
 module.exports = new GoodsService()

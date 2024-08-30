@@ -89,4 +89,10 @@ module.exports = {
     message: "商品不存在",
     result: "",
   },
+  removeGoodsError: {
+    code: "10207",
+    success: false,
+    message: "删除商品失败",
+    result: "",
+  },
 }
