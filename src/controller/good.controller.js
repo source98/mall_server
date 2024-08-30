@@ -1,6 +1,11 @@
 const path = require("path")
-const { fileUpLoadError, publishGoodsError } = require("../constant/err.type")
-const { createGoods } = require("../service/goods.service")
+const {
+  fileUpLoadError,
+  publishGoodsError,
+  updateGoodsError,
+  invalidGoodsId,
+} = require("../constant/err.type")
+const { createGoods, updateGoods } = require("../service/goods.service")
 class GoodsController {
   async upload(ctx) {
     const { file } = ctx.request.files
@@ -20,16 +25,36 @@ class GoodsController {
 
   async create(ctx) {
     try {
-      const { createdAt, updatedAt, ...res } = await createGoods(ctx.request.body)
+      const { createdAt, updatedAt, ...res } = await createGoods(
+        ctx.request.body
+      )
       ctx.body = {
         code: 200,
         success: true,
-        message: "发布商品成功1",
+        message: "发布商品成功",
         result: res,
       }
     } catch (e) {
       console.error(e)
       return ctx.app.emit("error", publishGoodsError, ctx)
+    }
+  }
+
+  async update(ctx) {
+    try {
+      const res = await updateGoods(ctx.params.id, ctx.request.body)
+      if (res) {
+        ctx.body = {
+          code: 200,
+          success: true,
+          message: "修改商品成功",
+          result: "",
+        }
+      } else {
+        return ctx.app.emit("error", invalidGoodsId, ctx)
+      }
+    } catch (e) {
+      return ctx.app.emit("error", updateGoodsError, ctx)
     }
   }
 }

@@ -1,7 +1,7 @@
 const Router = require("koa-router")
 const router = new Router({ prefix: "/goods" })
 
-const { upload, create } = require("../controller/good.controller")
+const { upload, create, update } = require("../controller/good.controller")
 
 const { auth, isAdmin } = require("../middleware//auth.middleware")
 const { goodValidator } = require("../middleware/goods.middleware")
@@ -13,5 +13,7 @@ router.post("/upload", auth, isAdmin, upload)
 
 // 发布商品
 router.post("/publishGood", auth, isAdmin, goodValidator, create)
+// 修改商品
+router.put("/publishGood/:id", auth, isAdmin, goodValidator, update)
 
 module.exports = router

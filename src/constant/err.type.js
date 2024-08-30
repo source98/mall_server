@@ -77,4 +77,16 @@ module.exports = {
     message: "上传商品失败",
     result: "",
   },
+  updateGoodsError: {
+    code: "10205",
+    success: false,
+    message: "修改商品失败",
+    result: "",
+  },
+  invalidGoodsId: {
+    code: "10206",
+    success: false,
+    message: "商品不存在",
+    result: "",
+  },
 }
