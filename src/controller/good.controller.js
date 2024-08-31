@@ -6,12 +6,14 @@ const {
   invalidGoodsId,
   removeGoodsError,
   restoreGoodsError,
+  findAllGoodsError,
 } = require("../constant/err.type")
 const {
   createGoods,
   updateGoods,
   removeGoods,
   restoreGoods,
+  findGoods
 } = require("../service/goods.service")
 class GoodsController {
   async upload(ctx) {
@@ -98,6 +100,16 @@ class GoodsController {
       }
     } catch (e) {
       return ctx.app.emit("error", restoreGoodsError, ctx)
+    }
+  }
+
+  async findAllGoods(ctx) {
+    const { pageNumber = 1, pageSize = 10 } = ctx.request.query
+    try {
+      const res = await findGoods(pageNumber, pageSize)
+      ctx.body = res
+    } catch (e) {
+      return ctx.app.emit("error", findAllGoodsError, ctx)
     }
   }
 }

@@ -6,7 +6,8 @@ const {
   create,
   update,
   remove,
-  restore
+  restore,
+  findAllGoods
 } = require("../controller/good.controller")
 
 const { auth, isAdmin } = require("../middleware//auth.middleware")
@@ -30,5 +31,8 @@ router.post("/soldGoods/:id/off", auth, isAdmin, remove)
 
 // 上架商品
 router.post("/shelfGoods/:id/on", auth, isAdmin, restore)
+
+// 商品列表
+router.get("/goodsList", findAllGoods)
 
 module.exports = router
